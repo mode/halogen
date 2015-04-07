@@ -9,7 +9,7 @@ module Halogen
     end
 
     module ClassMethods # :nodoc:
-      # @return [Halogen::Embeds::Definition]
+      # @return [Halogen::Links::Definition]
       #
       def link(name, *args, &procedure)
         definitions.add(Definition.new(name, *args, procedure))

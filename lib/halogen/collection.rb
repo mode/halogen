@@ -30,14 +30,14 @@ module Halogen
     end
 
     module InstanceMethods # :nodoc:
-      # Override super to ensure that the primary collection is always embedded
+      # Ensure that the primary collection is always embedded
       #
       # @param key [String] the embed key to check
       #
       # @return [true, false] whether the given key should be embedded
       #
       def embed?(key)
-        super || key == self.class.collection_name
+        key == self.class.collection_name
       end
     end
   end

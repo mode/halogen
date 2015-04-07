@@ -30,8 +30,6 @@ module Halogen
       #
       def embedded
         render_definitions(Definition.name) do |definition, result|
-          next unless embed?(definition.name.to_s)
-
           value = instance_eval(&definition.procedure)
 
           child = embedded_child(definition.name.to_s, value)
@@ -90,16 +88,6 @@ module Halogen
         options.fetch(:embed, {}).tap do |result|
           Halogen::HashUtil.stringify_keys!(result)
         end
-      end
-
-      # @param key [String]
-      #
-      # @return [true, false] whether to embed the key
-      #
-      def embed?(key)
-        return false unless embed_options.include?(key)
-
-        !%w(0 false).include?(embed_options.fetch(key).to_s)
       end
     end
   end

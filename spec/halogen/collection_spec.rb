@@ -44,34 +44,16 @@ describe Halogen::Collection do
 
   describe Halogen::Collection::InstanceMethods do
     describe '#embed?' do
-      it 'returns true if super is true' do
-        klass.collection_name = 'bar'
-
-        klass.embed(:foo) { klass.new }
-
-        repr = klass.new(embed: { foo: 1 })
-
-        expect(repr.embed?('foo')).to eq(true)
-      end
-
       it 'returns true if key matches collection name' do
         klass.collection_name = 'foo'
 
-        klass.embed(:foo) { klass.new }
-
-        repr = klass.new(embed: { foo: 0 })
-
-        expect(repr.embed?('foo')).to eq(true)
+        expect(klass.new.embed?('foo')).to eq(true)
       end
 
-      it 'returns false if no conditions match' do
+      it 'returns false if key does not match' do
         klass.collection_name = 'bar'
 
-        klass.embed(:foo) { klass.new }
-
-        repr = klass.new(embed: { foo: 0 })
-
-        expect(repr.embed?('foo')).to eq(false)
+        expect(klass.new.embed?('foo')).to eq(false)
       end
     end
   end

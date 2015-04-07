@@ -12,7 +12,7 @@ module Halogen
       # @param name [Symbol, String]
       # @param options [nil, Hash]
       #
-      # @return [Halogen::Embeds::Definition]
+      # @return [Halogen::Properties::Definition]
       #
       def property(name, options = {}, &procedure)
         definitions.add(Definition.new(name, options, procedure))

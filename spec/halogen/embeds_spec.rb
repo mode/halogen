@@ -185,23 +185,5 @@ describe Halogen::Embeds do
         expect(representer.embed_options).to eq('some' => { options: 1 })
       end
     end
-
-    describe '#embed?' do
-      it 'is true for expected values' do
-        [1, 2, true, '1', '2', 'true', 'yes'].each do |value|
-          representer = klass.new(embed: { foo: value })
-
-          expect(representer.embed?('foo')).to eq(true)
-        end
-      end
-
-      it 'is false for expected values' do
-        [0, false, '0', 'false'].each do |value|
-          representer = klass.new(embed: { foo: value })
-
-          expect(representer.embed?('foo')).to eq(false)
-        end
-      end
-    end
   end
 end
