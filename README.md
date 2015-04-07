@@ -1,6 +1,7 @@
 # Halogen
 
 [![Code Climate](https://codeclimate.com/repos/552430af695680100500b659/badges/cdae8d5a10147d135be9/gpa.svg)](https://codeclimate.com/repos/552430af695680100500b659/feed)
+[![Build Status](https://travis-ci.org/mode/halogen.svg?branch=master)](https://travis-ci.org/mode/halogen)
 
 This library provides a framework-agnostic interface for generating
 [HAL+JSON](http://stateless.co/hal_specification.html)
