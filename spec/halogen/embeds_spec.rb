@@ -147,28 +147,34 @@ describe Halogen::Embeds do
 
     describe '#render_child' do
       let :representer do
-        klass.new
-      end
-
-      it 'returns nil if child is not a representer' do
-        [nil, 1, ''].each do |child|
-          expect(representer.render_child(child, {})).to be_nil
-        end
-      end
-
-      it 'renders child representer with correct parent and options' do
-        child = Class.new do
+        Class.new do
           include Halogen
 
           property(:verify_parent) { parent.object_id }
           property(:verify_opts)   { options[:embed] }
         end.new
+      end
 
-        result = representer.render_child(child, foo: 'bar')
+      it 'returns nil if child is not a representer' do
+        [nil, 1, ''].each do |child|
+          expect(klass.new.render_child(child, {})).to be_nil
+        end
+      end
+
+      it 'renders child representer with correct parent and options' do
+        result = representer.render_child(representer, foo: 'bar')
 
         expect(result).to eq(
           verify_parent: representer.object_id,
           verify_opts: { foo: 'bar' })
+      end
+
+      it 'merges child options if already present' do
+        representer.options[:embed] = { bar: 'bar' }
+
+        result = representer.render_child(representer, foo: 'foo')
+
+        expect(result[:verify_opts]).to eq(foo: 'foo', bar: 'bar')
       end
     end
 

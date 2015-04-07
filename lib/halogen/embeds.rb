@@ -76,7 +76,10 @@ module Halogen
       def render_child(repr, opts)
         return unless repr.class.included_modules.include?(Halogen)
 
-        repr.options.merge!(embed: opts, parent: self)
+        repr.options[:embed] ||= {}
+        repr.options[:embed].merge!(opts)
+
+        repr.options[:parent] = self
 
         repr.render
       end
