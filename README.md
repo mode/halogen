@@ -1,5 +1,7 @@
 # Halogen
 
+[![Code Climate](https://codeclimate.com/repos/552430af695680100500b659/badges/cdae8d5a10147d135be9/gpa.svg)](https://codeclimate.com/repos/552430af695680100500b659/feed)
+
 This library provides a framework-agnostic interface for generating
 [HAL+JSON](http://stateless.co/hal_specification.html)
 representations of resources in Ruby.
@@ -190,7 +192,7 @@ link(:find, :templated) { '/goats/{?id}' }
 # => { _links: { find: { href: '/goats/{?id}', templated: true } } ... }
 ```
 
-### Embedded resources
+#### Embedded resources
 
 Embedded resources are not rendered by default. They will be included if both
 of the following conditions are met:
