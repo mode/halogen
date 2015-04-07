@@ -21,6 +21,40 @@ describe Halogen::Links::Definition do
     end
   end
 
+  describe '#value' do
+    it 'handles multiple hrefs' do
+      definition = Halogen::Links::Definition.new(
+        :name, proc { %w(first second) })
+
+      expect(definition.value(nil)).to eq([
+        { href: 'first' },
+        { href: 'second' }
+      ])
+    end
+
+    it 'handles multiple hrefs with additional attributes' do
+      definition = Halogen::Links::Definition.new(
+        :name, { attrs: { foo: 'bar' } }, proc { %w(first second) })
+
+      expect(definition.value(nil)).to eq([
+        { href: 'first', foo: 'bar' },
+        { href: 'second', foo: 'bar' }
+      ])
+    end
+
+    it 'handles single href' do
+      definition = Halogen::Links::Definition.new(:name, proc { 'first' })
+
+      expect(definition.value(nil)).to eq(href: 'first')
+    end
+
+    it 'is nil for nil href' do
+      definition = Halogen::Links::Definition.new(:name, proc {})
+
+      expect(definition.value(nil)).to be_nil
+    end
+  end
+
   describe '.build_options' do
     it 'has expected value without options hash' do
       options = Halogen::Links::Definition.build_options([])

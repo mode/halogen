@@ -27,6 +27,14 @@ describe Halogen::Links do
             foo: 'foo', attrs: { templated: true, bar: 'bar' })
           expect(link.procedure.call).to eq('path')
         end
+
+        it 'handles multiple values' do
+          klass.link(:self) { %w(foo bar) }
+
+          rendered = klass.new.render[:_links][:self]
+
+          expect(rendered).to eq([{ href: 'foo' }, { href: 'bar' }])
+        end
       end
 
       describe 'without procedure' do

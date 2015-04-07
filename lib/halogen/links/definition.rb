@@ -23,6 +23,23 @@ module Halogen
              'Link requires either procedure or explicit value'
       end
 
+      # @return [nil, Hash]
+      #
+      def value(_instance)
+        hrefs = super
+
+        attrs = options.fetch(:attrs, {})
+
+        case hrefs
+        when Array
+          hrefs.map { |href| attrs.merge(href: href) }
+        when nil
+          # no-op
+        else
+          attrs.merge(href: hrefs)
+        end
+      end
+
       class << self
         # Build hash of options from flexible definition arguments
         #

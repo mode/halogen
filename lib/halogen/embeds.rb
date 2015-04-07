@@ -40,8 +40,8 @@ module Halogen
         end
       end
 
-      # @return [Hash, Array<Hash>] either a single rendered child representer
-      #   or an array of them
+      # @return [nil, Hash, Array<Hash>] either a single rendered child
+      #   representer or an array of them
       #
       def embedded_child(key, value)
         return unless value

@@ -27,11 +27,7 @@ module Halogen
       #
       def links
         render_definitions(Definition.name) do |definition, result|
-          attrs = definition.options.fetch(:attrs, {})
-
-          href = definition.value(self)
-
-          result[definition.name] = attrs.merge(href: href) if href
+          result[definition.name] = definition.value(self)
         end
       end
     end
