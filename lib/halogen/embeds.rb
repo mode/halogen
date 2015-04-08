@@ -85,7 +85,7 @@ module Halogen
       # @return [Hash] hash of options with top level string keys
       #
       def embed_options
-        options.fetch(:embed, {}).tap do |result|
+        @_embed_options ||= options.fetch(:embed, {}).tap do |result|
           Halogen::HashUtil.stringify_keys!(result)
         end
       end
