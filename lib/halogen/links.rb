@@ -27,7 +27,9 @@ module Halogen
       #
       def links
         render_definitions(Definition.name) do |definition, result|
-          result[definition.name] = definition.value(self)
+          value = definition.value(self)
+
+          result[definition.name] = value if value
         end
       end
     end

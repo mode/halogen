@@ -62,6 +62,30 @@ describe Halogen::Links do
           end
         end
       end
+
+      it 'converts string rel to symbol' do
+        link = klass.link('ea:find', value: 'path')
+
+        expect(link.name).to eq(:'ea:find')
+      end
+    end
+  end
+
+  describe Halogen::Links::InstanceMethods do
+    describe '#links' do
+      let :klass do
+        Class.new do
+          include Halogen
+
+          link(:self) { nil }
+        end
+      end
+
+      it 'does not include link if value is nil' do
+        repr = klass.new
+
+        expect(repr.links).to eq({})
+      end
     end
   end
 end
