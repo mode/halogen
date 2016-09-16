@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Halogen::Collection do
   let :klass do
     Class.new do

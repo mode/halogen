@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Halogen do
   let :klass do
     Class.new { include Halogen }

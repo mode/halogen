@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Halogen::Configuration do
   describe '#extensions' do
     it 'is empty array by default' do

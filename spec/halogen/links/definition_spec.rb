@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Halogen::Links::Definition do
   describe '#validate' do
     it 'returns true with procedure' do

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Halogen::Definitions do
   let :definitions do
     Halogen::Definitions.new

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Halogen::Definition do
   describe '#initialize' do
     it 'symbolizes option keys' do
