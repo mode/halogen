@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 module Halogen
   # Simple configuration class
   #

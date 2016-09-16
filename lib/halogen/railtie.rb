@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 module Halogen
   # Provide Rails-specific extensions if loaded in a Rails application
   #

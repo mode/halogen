@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 module Halogen
   # Each representer class has a Halogen::Definitions instance which stores
   # Halogen::Definition instances by type.

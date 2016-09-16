@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 module Halogen
   # Behavior for representers with a primary collection resource.
   #

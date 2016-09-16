@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 module Halogen
   # Stores instructions for how to render a value for a given representer
   # instance

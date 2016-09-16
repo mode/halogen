@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 module Halogen
   module Embeds # :nodoc:
     def self.included(base) # :nodoc:
