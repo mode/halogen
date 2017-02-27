@@ -5,7 +5,7 @@ describe Halogen::Properties do
 
   describe Halogen::Properties::ClassMethods do
     describe '#property' do
-      it 'defines property 'do
+      it 'defines property' do
         expect {
           klass.property(:foo)
         }.to change(klass.definitions, :size).by(1)
