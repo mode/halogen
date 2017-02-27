@@ -37,6 +37,10 @@ module Halogen
       def embed?(key)
         key == self.class.collection_name
       end
+
+      def collection?
+        true
+      end
     end
   end
 end

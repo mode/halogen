@@ -70,4 +70,12 @@ describe Halogen::Resource do
       end
     end
   end
+
+  describe '#collection?' do
+    it 'is false' do
+      repr = klass.new(nil)
+
+      expect(repr.collection?).to eq(false)
+    end
+  end
 end

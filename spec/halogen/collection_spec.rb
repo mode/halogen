@@ -52,5 +52,13 @@ describe Halogen::Collection do
         expect(klass.new.embed?('foo')).to eq(false)
       end
     end
+
+    describe '#collection?' do
+      it 'is true' do
+        repr = klass.new
+
+        expect(repr.collection?).to eq(true)
+      end
+    end
   end
 end

@@ -88,6 +88,10 @@ module Halogen
       @depth ||= parent ? parent.depth + 1 : 0
     end
 
+    def collection?
+      false
+    end
+
     protected
 
     # Allow included modules to decorate rendered hash
