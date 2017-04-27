@@ -52,6 +52,10 @@ module Halogen
 
       define_collection(name)
     end
+
+    def collection?
+      false
+    end
   end
 
   module InstanceMethods # :nodoc:

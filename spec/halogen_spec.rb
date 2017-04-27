@@ -27,6 +27,22 @@ describe Halogen do
         expect(klass.included_modules.include?(Halogen::Collection)).to eq(true)
       end
     end
+
+    describe '#collection?' do
+      it 'is false by default' do
+        klass = Class.new { include Halogen }
+
+        expect(klass.collection?).to eq(false)
+      end
+
+      it 'is true for collection' do
+        klass = Class.new { include Halogen }
+
+        klass.collection :foo
+
+        expect(klass.collection?).to eq(true)
+      end
+    end
   end
 
   describe Halogen::InstanceMethods do

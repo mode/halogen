@@ -25,6 +25,10 @@ module Halogen
       def define_collection(name)
         self.collection_name = name.to_s
       end
+
+      def collection?
+        true
+      end
     end
 
     module InstanceMethods # :nodoc:
