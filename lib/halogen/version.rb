@@ -1,3 +1,3 @@
 module Halogen
-  VERSION = '0.0.6.2' # :nodoc:
+  VERSION = '0.0.7' # :nodoc:
 end
