@@ -13,6 +13,10 @@ module Halogen
       # @return [Halogen::Properties::Definition]
       #
       def property(name, options = {}, &procedure)
+        define_singleton_method("get_property_#{name}") do |resource, name|
+          resource.send(name.to_sym)
+        end
+
         definitions.add(Definition.new(name, options, procedure))
       end
     end

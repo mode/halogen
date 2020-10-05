@@ -56,6 +56,15 @@ module Halogen
     def collection?
       false
     end
+
+    def render(resource, result = {})
+      prop_definitions = self.definitions.fetch("Halogen::Properties::Definition")
+      prop_definitions.each do |prop_definition|
+        result[prop_definition.name] = send("get_property_#{prop_definition.name.to_s}", resource, prop_definition.name)
+      end
+
+      result
+    end
   end
 
   module InstanceMethods # :nodoc:
