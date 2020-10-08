@@ -17,7 +17,7 @@ module Halogen
           define_singleton_method("get_embedded_#{name}") do |resource, definition, result = {}|
             result.tap do
               result[:'_embedded'] ||= {}
-              value = resource.send(name)
+              value = collection? ? resource : resource.send(name)
 
               options[:representer] = definition.options[:representer]
 
