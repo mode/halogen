@@ -17,11 +17,11 @@ module Halogen
           if procedure
             procedure.call(resource)
           else
-            if respond_to?(name.to_sym)
-              send(name.to_sym, resource)
-            else
+            # if respond_to?(name.to_sym)
+            #   send(name.to_sym, resource)
+            # else
               resource.send(name.to_sym)
-            end
+            # end
           end
         end
 

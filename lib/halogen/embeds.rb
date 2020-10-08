@@ -14,15 +14,16 @@ module Halogen
       #
       def embed(name, options = {}, &procedure)
         if options[:representer]
-          define_singleton_method("get_embedded") do |resource, result = {}|
+          define_singleton_method("get_embedded_#{name}") do |resource, definition, result = {}|
             result.tap do
-              result[:'_embedded'] = self.definitions.fetch(Definition.name, []).each_with_object({}) do |definition, embedded_result|
-                value = resource.send(name)
+              result[:'_embedded'] ||= {}
+              value = resource.send(name)
 
-                child = get_embedded_child(value, definition.name.to_s, options)
+              options[:representer] = definition.options[:representer]
 
-                embedded_result[definition.name] = child if child
-              end
+              child = get_embedded_child(value, name, options)
+
+              result[:'_embedded'][name] = child if child
             end
 
             result.delete(:'_embedded') unless result[:'_embedded'].any?
@@ -30,6 +31,12 @@ module Halogen
         end
 
         definitions.add(Definition.new(name, options, procedure))
+      end
+
+      def get_embedded(resource, result)
+        self.definitions.fetch("Halogen::Embeds::Definition", []).each do |definition|
+          send(:"get_embedded_#{definition.name}", resource, definition, result)
+        end
       end
 
       def get_embedded_child(value, key, opts)
