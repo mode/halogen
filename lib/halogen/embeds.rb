@@ -13,30 +13,29 @@ module Halogen
       # @return [Halogen::Embeds::Definition]
       #
       def embed(name, options = {}, &procedure)
-        create_some_classy_setup
+        if options[:representer]
+          define_singleton_method("get_embedded") do |resource, result = {}|
+            result.tap do
+              result[:'_embedded'] = self.definitions.fetch(Definition.name, []).each_with_object({}) do |definition, embedded_result|
+                value = resource.send(name)
+
+                child = get_embedded_child(value, definition.name.to_s, options)
+
+                embedded_result[definition.name] = child if child
+              end
+            end
+
+            result.delete(:'_embedded') unless result[:'_embedded'].any?
+          end
+        end
 
         definitions.add(Definition.new(name, options, procedure))
       end
 
-      def render_embeds(things)
-        result.tap do
-          render_definitions(Definition.name) do |definition, result|
-            value = instance_eval(&definition.procedure)
-
-            child = get_embedded_child(definition.name.to_s, value)
-
-            result[definition.name] = child if child
-          end
-        end
-
-
-        result[:'_embedded'] = v if v.any?
-      end
-
-      def get_embedded_child(key, value)
+      def get_embedded_child(value, key, opts)
         return unless value
 
-        opts = classy_child_embed_opts(key)
+        # opts = classy_child_embed_opts(key)
 
         if value.is_a?(Array)
           value.map { |item| render_child(item, opts) }.compact
@@ -63,15 +62,17 @@ module Halogen
       #
       # @return [nil, Hash] the rendered child
       #
-      def classy_render_child(repr, opts)
-        return unless repr.class.included_modules.include?(Halogen)
+      def render_child(value, options = {})
+        repr = options[:representer]
 
-        repr.options[:embed] ||= {}
-        repr.options[:embed].merge!(opts)
+        return unless repr.included_modules.include?(Halogen)
 
-        repr.options[:parent] = self
+        # repr.options[:embed] ||= {}
+        # repr.options[:embed].merge!(opts)
+        #
+        # repr.options[:parent] = self
 
-        repr.render
+        repr.render(value)
       end
 
       # @return [Hash] hash of options with top level string keys

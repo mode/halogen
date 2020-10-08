@@ -63,6 +63,8 @@ module Halogen
         result[prop_definition.name] = send("get_property_#{prop_definition.name.to_s}", resource)
       end
 
+      get_embedded(resource, result) if respond_to?(:get_embedded)
+
       result
     end
   end
@@ -114,9 +116,9 @@ module Halogen
     #
     # @return [Hash] the decorated hash
     #
-    def decorate_render(key, result)
+    def decorate_render(key, result, resource = self)
       result.tap do
-        value = send(key)
+        value = resource.send(key)
 
         result[:"_#{key}"] = value if value.any?
       end
