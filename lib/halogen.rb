@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__)))
 
-require 'json'
+require 'oj'
 
 # HAL+JSON generator
 #
@@ -143,7 +143,10 @@ module Halogen
     # @return [Halogen::Configuration]
     #
     def config
+      Oj.mimic_JSON
+      Oj.add_to_json
       @config ||= Configuration.new
+
     end
   end
 end
