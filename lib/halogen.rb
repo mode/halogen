@@ -70,7 +70,8 @@ module Halogen
     # @return [String] rendered JSON
     #
     def to_json
-      render.to_json
+      puts 'oj dumping'
+      Oj.dump(render)
     end
 
     # @return [Hash] rendered representation
@@ -146,7 +147,6 @@ module Halogen
       Oj.mimic_JSON
       Oj.add_to_json
       @config ||= Configuration.new
-
     end
   end
 end
