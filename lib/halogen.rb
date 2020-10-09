@@ -70,7 +70,7 @@ module Halogen
     # @return [String] rendered JSON
     #
     def to_json
-      puts 'oj dumping'
+     # puts 'oj dumping'
       Oj.dump(render)
     end
 
