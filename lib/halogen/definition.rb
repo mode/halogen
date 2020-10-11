@@ -42,6 +42,16 @@ module Halogen
       end
     end
 
+    def enabled_for_class?(representer_class, representer_options, resource)
+      if options.key?(:if)
+        !!eval_guard_for_class(representer_class, resource, options.fetch(:if))
+      elsif options.key?(:unless)
+        !eval_guard_for_class(representer_class, resource, options.fetch(:unless))
+      else
+        true
+      end
+    end
+
     # @return [true] if nothing is raised
     #
     # @raise [Halogen::InvalidDefinition] if the definition is invalid
@@ -66,6 +76,19 @@ module Halogen
       else
         guard
       end
+    end
+  end
+
+  # Evaluate guard procedure or method
+  #
+  def eval_guard_for_class(representer_class, resource, guard)
+    case guard
+    when Proc
+      representer_class.class_eval(resource, &guard)
+    when Symbol, String
+      representer_class.send(guard, resource)
+    else
+      guard
     end
   end
 end
