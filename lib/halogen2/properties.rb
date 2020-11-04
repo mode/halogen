@@ -2,8 +2,6 @@ module Halogen2
   module Properties # :nodoc:
     def self.included(base) # :nodoc:
       base.extend ClassMethods
-
-      base.send :include, InstanceMethods
     end
 
     module ClassMethods # :nodoc:
@@ -26,22 +24,6 @@ module Halogen2
         end
 
         definitions.add(Definition.new(name, options, procedure))
-      end
-    end
-
-    module InstanceMethods # :nodoc:
-      # @return [Hash] the rendered hash with properties, if any
-      #
-      def render
-        super.merge(properties)
-      end
-
-      # @return [Hash] properties from definitions
-      #
-      def properties
-        render_definitions(Definition.name) do |definition, result|
-          result[definition.name] = definition.value(self)
-        end
       end
     end
   end

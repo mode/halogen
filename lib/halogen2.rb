@@ -16,7 +16,6 @@ module Halogen2
   def self.included(base)
     base.extend ClassMethods
 
-    base.send :include, InstanceMethods
     base.send :include, Properties
     base.send :include, Links
     base.send :include, Embeds
@@ -69,79 +68,6 @@ module Halogen2
       get_embedded(resource, result, representer_options) if respond_to?(:get_embedded)
 
       result
-    end
-  end
-
-  module InstanceMethods # :nodoc:
-    # @param options [nil, Hash] hash of options
-    #
-    # @return [Object] the representer instance
-    #
-    def initialize(options = {})
-      @options = Halogen::HashUtil.symbolize_keys!(options)
-    end
-
-    # @return [String] rendered JSON
-    #
-    def to_json
-      render.to_json
-    end
-
-    # @return [Hash] rendered representation
-    #
-    def render
-      {}
-    end
-
-    # @return [nil, Object] the parent representer, if this instance is an
-    #   embedded child
-    #
-    def parent
-      @parent ||= options.fetch(:parent, nil)
-    end
-
-    # @return [Integer] the depth at which this representer is embedded
-    #
-    def depth
-      @depth ||= parent ? parent.depth + 1 : 0
-    end
-
-    def collection?
-      false
-    end
-
-    protected
-
-    # Allow included modules to decorate rendered hash
-    #
-    # @param key [Symbol] the key (e.g. `embedded`, `links`)
-    # @param result [Hash] the partially rendered hash to decorate
-    #
-    # @return [Hash] the decorated hash
-    #
-    def decorate_render(key, result, resource = self)
-      result.tap do
-        value = resource.send(key)
-
-        result[:"_#{key}"] = value if value.any?
-      end
-    end
-
-    # Iterate through enabled definitions of the given type, allowing instance
-    # to build up resulting hash
-    #
-    # @param type [Symbol, String] the definition type
-    #
-    # @return [Hash] the result
-    #
-    def render_definitions(type)
-      definitions = self.class.definitions.fetch(type, [])
-
-      definitions.each_with_object({}) do |definition, result|
-        next unless definition.enabled?(self)
-
-        yield definition, result
-      end
     end
   end
 

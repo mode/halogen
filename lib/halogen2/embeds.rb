@@ -2,8 +2,6 @@ module Halogen2
   module Embeds # :nodoc:
     def self.included(base) # :nodoc:
       base.extend ClassMethods
-
-      base.send :include, InstanceMethods
     end
 
     module ClassMethods # :nodoc:
@@ -86,86 +84,6 @@ module Halogen2
       #
       def classy_embed_options(representer_options)
         @_embed_options ||= representer_options.fetch(:embed, {}).tap do |result|
-          Halogen2::HashUtil.stringify_keys!(result)
-        end
-      end
-
-
-      #
-      # Embed without instantiating
-      #
-      #
-    end
-
-    module InstanceMethods # :nodoc:
-      # @return [Hash] the rendered hash with embedded resources, if any
-      #
-      def render
-        decorate_render :embedded, super
-      end
-
-      # @return [Hash] hash of rendered resources to embed
-      #
-      def embedded
-        render_definitions(Definition.name) do |definition, result|
-          value = instance_eval(&definition.procedure)
-
-          child = embedded_child(definition.name.to_s, value)
-
-          result[definition.name] = child if child
-        end
-      end
-
-      # @return [nil, Hash, Array<Hash>] either a single rendered child
-      #   representer or an array of them
-      #
-      def embedded_child(key, value)
-        return unless value
-
-        # puts "key #{key}"
-        opts = child_embed_opts(key)
-        # puts "child options #{opts}"
-
-        if value.is_a?(Array)
-          value.map { |item| render_child(item, opts) }.compact
-        else
-          render_child(value, opts)
-        end
-      end
-
-      # @param key [String]
-      #
-      # @return [Hash]
-      #
-      def child_embed_opts(key)
-        opts = embed_options.fetch(key, {})
-
-        # Turn { :report => 1 } into { :report => {} } for child
-        opts = {} unless opts.is_a?(Hash)
-
-        opts
-      end
-
-      # @param repr [Object] the child representer
-      # @param opts [Hash] the embed options to assign to the child
-      #
-      # @return [nil, Hash] the rendered child
-      #
-      def render_child(repr, opts)
-        return unless repr.class.included_modules.include?(Halogen2)
-
-        repr.options[:embed] ||= {}
-        repr.options[:embed].merge!(opts)
-
-        repr.options[:parent] = self
-
-        repr.render
-      end
-
-      # @return [Hash] hash of options with top level string keys
-      #
-      def embed_options
-        @_embed_options ||= options.fetch(:embed, {}).tap do |result|
           Halogen2::HashUtil.stringify_keys!(result)
         end
       end

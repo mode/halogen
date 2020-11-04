@@ -9,8 +9,6 @@ module Halogen2
 
       base.extend ClassMethods
 
-      base.send :include, InstanceMethods
-
       base.send :attr_reader, :resource
 
       base.class.send :attr_accessor, :resource_name
@@ -38,18 +36,6 @@ module Halogen2
             definition.procedure = proc { resource.send(name) }
           end
         end
-      end
-    end
-
-    module InstanceMethods # :nodoc:
-      # Override standard initializer to assign primary resource
-      #
-      # @param resource [Object] the primary resource
-      #
-      def initialize(resource, *args)
-        @resource = resource
-
-        super *args
       end
     end
   end
