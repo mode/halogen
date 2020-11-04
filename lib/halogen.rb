@@ -56,20 +56,6 @@ module Halogen
     def collection?
       false
     end
-
-    def render(resource, representer_options = {})
-      result = {}
-      prop_definitions = self.definitions.fetch("Halogen::Properties::Definition", [])
-      prop_definitions.each do |prop_definition|
-        result[prop_definition.name] = send("get_property_#{prop_definition.name.to_s}", resource)
-      end
-
-      representer_options[:representer] = self unless representer_options[:representer]
-
-      get_embedded(resource, result, representer_options) if respond_to?(:get_embedded)
-
-      result
-    end
   end
 
   module InstanceMethods # :nodoc:

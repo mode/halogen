@@ -31,9 +31,9 @@ module Halogen2
         definitions.add(Definition.new(name, options, procedure))
       end
 
-      def get_embedded(resource, result, representer_options)
+      def get_embeds(resource, result, representer_options)
         self.definitions.fetch("Halogen2::Embeds::Definition", []).each do |definition|
-          next unless definition.enabled_for_class?(representer_options[:representer], representer_options, collection_name)
+          next unless definition.enabled?(representer_options[:representer], representer_options, collection_name)
           send(:"get_embedded_#{definition.name}", resource, definition, result, representer_options)
         end
       end
@@ -43,7 +43,7 @@ module Halogen2
 
         repr = representer_options[:representer]
         # puts "key #{key}"
-        child_options = classy_child_embed_opts(key, representer_options)
+        child_options = child_embed_opts(key, representer_options)
         # puts "child options #{child_options.inspect}"
         if value.is_a?(Array)
           value.map { |item| render_child(item, repr, child_options) }.compact
@@ -56,8 +56,8 @@ module Halogen2
       #
       # @return [Hash]
       #
-      def classy_child_embed_opts(key, representer_options)
-        opts = classy_embed_options(representer_options).fetch(key.to_s, {})
+      def child_embed_opts(key, representer_options)
+        opts = embed_options(representer_options).fetch(key.to_s, {})
 
         # Turn { :report => 1 } into { :report => {} } for child
         opts = {} unless opts.is_a?(Hash)
@@ -82,7 +82,7 @@ module Halogen2
 
       # @return [Hash] hash of options with top level string keys
       #
-      def classy_embed_options(representer_options)
+      def embed_options(representer_options)
         @_embed_options ||= representer_options.fetch(:embed, {}).tap do |result|
           Halogen2::HashUtil.stringify_keys!(result)
         end

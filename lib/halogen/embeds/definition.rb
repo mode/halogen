@@ -29,16 +29,6 @@ module Halogen
         end
       end
 
-      def enabled_for_class?(representer_class, representer_options, resource)
-        return false unless super(representer_class, representer_options, resource)
-
-        if representer_class.respond_to?(:embed?)
-          representer_class.embed?(name.to_s)
-        else
-          embed_via_options_for_class?(representer_class, representer_options)
-        end
-      end
-
       private
 
       # @param instance [Object]
@@ -47,16 +37,6 @@ module Halogen
       #
       def embed_via_options?(instance)
         opts = instance.embed_options
-
-        # Definition name must appear in instance embed option keys
-        return false unless opts.include?(name.to_s)
-
-        # Check value of embed option for definition name
-        !%w(0 false).include?(opts.fetch(name.to_s).to_s)
-      end
-
-      def embed_via_options_for_class?(representer_class, representer_options)
-        opts = representer_class.classy_embed_options(representer_options)
 
         # Definition name must appear in instance embed option keys
         return false unless opts.include?(name.to_s)

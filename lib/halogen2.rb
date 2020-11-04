@@ -65,7 +65,7 @@ module Halogen2
 
       representer_options[:representer] = self unless representer_options[:representer]
 
-      get_embedded(resource, result, representer_options) if respond_to?(:get_embedded)
+      get_embeds(resource, result, representer_options) if respond_to?(:get_embeds)
 
       result
     end
