@@ -2,8 +2,6 @@ module Halogen2
   module Links # :nodoc:
     def self.included(base) # :nodoc:
       base.extend ClassMethods
-
-      base.send :include, InstanceMethods
     end
 
     module ClassMethods # :nodoc:
@@ -12,24 +10,18 @@ module Halogen2
       def link(name, *args, &procedure)
         definitions.add(Definition.new(name, *args, procedure))
       end
-    end
 
-    module InstanceMethods # :nodoc:
-      # @return [Hash] the rendered hash with links, if any
-      #
-      def render
-        decorate_render :links, super
-      end
+      def get_links(_resource, result, representer_options)
+        result[:_links] ||= {}
+        self.definitions.fetch("Halogen2::Links::Definition", []).each do |definition|
+          next unless definition.enabled?(representer_options[:representer], representer_options)
+          value = definition.value(nil)
 
-      # @return [Hash] links from definitions
-      #
-      def links
-        render_definitions(Definition.name) do |definition, result|
-          value = definition.value(self)
-
-          result[definition.name] = value if value
+          result[:_links][definition.name] = value if value
         end
+        result.delete(:'_links') unless result[:'_links'].any?
       end
+
     end
   end
 end

@@ -32,11 +32,11 @@ module Halogen2
     # @return [true, false] whether this definition should be included based on
     #   its conditional guard, if any
     #
-    def enabled?(representer_class, representer_options, resource)
+    def enabled?(representer_class, representer_options, resource = nil)
       if options.key?(:if)
-        !!eval_guard_for_class(representer_class, resource, options.fetch(:if))
+        !!eval_guard(representer_class, resource, options.fetch(:if))
       elsif options.key?(:unless)
-        !eval_guard_for_class(representer_class, resource, options.fetch(:unless))
+        !eval_guard(representer_class, resource, options.fetch(:unless))
       else
         true
       end
@@ -52,18 +52,20 @@ module Halogen2
       fail InvalidDefinition,
            "Cannot specify both value and procedure for #{name}"
     end
-  end
 
-  # Evaluate guard procedure or method
-  #
-  def eval_guard(representer_class, resource, guard)
-    case guard
-    when Proc
-      representer_class.class_eval(resource, &guard)
-    when Symbol, String
-      representer_class.send(guard, resource)
-    else
-      guard
+    # Evaluate guard procedure or method
+    #
+    def eval_guard(representer_class, resource, guard)
+      case guard
+      when Proc
+        # binding.irb
+        # representer_class.class_eval(resource, &guard)
+        guard.call
+      when Symbol, String
+        representer_class.send(guard, resource)
+      else
+        guard
+      end
     end
   end
 end
