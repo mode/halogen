@@ -28,34 +28,34 @@ describe Halogen2::Definition do
     it 'is true if definition is not guarded' do
       definition = Halogen2::Definition.new(:name, {}, nil)
 
-      expect(definition.enabled?(nil)).to eq(true)
+      expect(definition.enabled?(Class.new, nil, nil)).to eq(true)
     end
 
     describe 'when guard is a proc' do
       let :definition do
-        Halogen2::Definition.new(:name, { if: proc { empty? } }, nil)
+        Halogen2::Definition.new(:name, { if: proc { |resource| resource.empty? } }, nil)
       end
 
       it 'is true if condition passes' do
-        expect(definition.enabled?('')).to eq(true)
+        expect(definition.enabled?(Class.new, nil, '')).to eq(true)
       end
 
       it 'is false if condition fails' do
-        expect(definition.enabled?('foo')).to eq(false)
+        expect(definition.enabled?(nil, nil, 'foo')).to eq(false)
       end
     end
 
     describe 'when guard is a method name' do
       let :definition do
-        Halogen2::Definition.new(:name, { if: :empty? }, nil)
+        Halogen2::Definition.new(:name, { if: :include? }, nil)
       end
 
       it 'is true if condition passes' do
-        expect(definition.enabled?('')).to eq(true)
+        expect(definition.enabled?({foo: 'bar'}, {}, :foo)).to eq(true)
       end
 
       it 'is false if condition fails' do
-        expect(definition.enabled?('foo')).to eq(false)
+        expect(definition.enabled?({bar: 'foo'}, {}, :foo)).to eq(false)
       end
     end
 
@@ -69,17 +69,17 @@ describe Halogen2::Definition do
       it 'is false if condition fails' do
         definition = Halogen2::Definition.new(:name, { if: false }, nil)
 
-        expect(definition.enabled?(nil)).to eq(false)
+        expect(definition.enabled?(Class.new, {}, nil)).to eq(false)
       end
     end
 
     describe 'when guard is negated' do
       let :definition do
-        Halogen2::Definition.new(:name, { unless: proc { empty? } }, nil)
+        Halogen2::Definition.new(:name, { unless: proc { |resource| resource.empty? } }, nil)
       end
 
       it 'is false if condition passes' do
-        expect(definition.enabled?('')).to eq(false)
+        expect(definition.enabled?(Class.new, {}, '')).to eq(false)
       end
     end
   end

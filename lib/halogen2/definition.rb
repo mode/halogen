@@ -32,7 +32,7 @@ module Halogen2
     # @return [true, false] whether this definition should be included based on
     #   its conditional guard, if any
     #
-    def enabled?(representer_class, representer_options, resource = nil)
+    def enabled?(representer_class = Class.new { include Halogen2 }, representer_options = {}, resource = nil)
       if options.key?(:if)
         !!eval_guard(representer_class, resource, options.fetch(:if))
       elsif options.key?(:unless)
@@ -58,9 +58,7 @@ module Halogen2
     def eval_guard(representer_class, resource, guard)
       case guard
       when Proc
-        # binding.irb
-        # representer_class.class_eval(resource, &guard)
-        guard.call
+        guard.call(resource)
       when Symbol, String
         representer_class.send(guard, resource)
       else

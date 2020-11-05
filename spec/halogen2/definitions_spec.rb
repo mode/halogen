@@ -1,6 +1,6 @@
 require_relative '../../lib/halogen2'
 
-describe halogen2::Definitions do
+describe Halogen2::Definitions do
   let :definitions do
     Halogen2::Definitions.new
   end

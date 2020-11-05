@@ -1,0 +1,21 @@
+0.0.6:
+{:id=>0,
+ :number=>0,
+ :title=>"Issue 0",
+ :_embedded=>
+  {:user=>{:id=>1, :login=>"User 1"},
+   :labels=>
+    [{:id=>2, :name=>"Label 2", :color=>"ffffff"},
+     {:id=>3, :name=>"Label 3", :color=>"ffffff"},
+     {:id=>0, :name=>"Label 0", :color=>"ffffff"},
+     {:id=>1, :name=>"Label 1", :color=>"ffffff"}]}}
+
+0.1:
+{:id=>0,
+ :number=>0,
+ :title=>"Issue 0",
+ :_embedded=>
+  {:labels=>
+    [{:id=>1, :name=>"Label 1", :color=>"ffffff"},
+     {:id=>0, :name=>"Label 0", :color=>"ffffff"}],
+   :user=>{:id=>0, :login=>"User 0"}}}
