@@ -6,7 +6,7 @@ describe Halogen2::Links do
   end
 
   describe Halogen2::Links::ClassMethods do
-    describe '#link' do
+    describe '.link' do
       describe 'with procedure' do
         it 'builds simple definition' do
           link = klass.link(:self) { 'path' }
@@ -29,7 +29,7 @@ describe Halogen2::Links do
         it 'handles multiple values' do
           klass.link(:self) { %w(foo bar) }
 
-          rendered = klass.new.render[:_links][:self]
+          rendered = klass.render(nil)[:_links][:self]
 
           expect(rendered).to eq([{ href: 'foo' }, { href: 'bar' }])
         end
@@ -67,10 +67,8 @@ describe Halogen2::Links do
         expect(link.name).to eq(:'ea:find')
       end
     end
-  end
 
-  describe Halogen2::Links::InstanceMethods do
-    describe '#links' do
+    describe '.links' do
       let :klass do
         Class.new do
           include Halogen2
@@ -80,9 +78,9 @@ describe Halogen2::Links do
       end
 
       it 'does not include link if value is nil' do
-        repr = klass.new
+        result = klass.render(nil)
 
-        expect(repr.links).to eq({})
+        expect(result).not_to have_key(:_links)
       end
     end
   end
