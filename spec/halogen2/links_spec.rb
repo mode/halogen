@@ -1,9 +1,11 @@
-describe Halogen::Links do
+require_relative '../../lib/halogen2'
+
+describe Halogen2::Links do
   let :klass do
-    Class.new { include Halogen }
+    Class.new { include Halogen2 }
   end
 
-  describe Halogen::Links::ClassMethods do
+  describe Halogen2::Links::ClassMethods do
     describe '#link' do
       describe 'with procedure' do
         it 'builds simple definition' do
@@ -67,11 +69,11 @@ describe Halogen::Links do
     end
   end
 
-  describe Halogen::Links::InstanceMethods do
+  describe Halogen2::Links::InstanceMethods do
     describe '#links' do
       let :klass do
         Class.new do
-          include Halogen
+          include Halogen2
 
           link(:self) { nil }
         end

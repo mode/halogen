@@ -1,28 +1,30 @@
-describe Halogen::Collection do
+require_relative '../../lib/halogen2'
+
+describe Halogen2::Collection do
   let :klass do
     Class.new do
-      include Halogen
-      include Halogen::Collection
+      include Halogen2
+      include Halogen2::Collection
     end
   end
 
   describe '.included' do
     it 'raises error if base is already a resource' do
       resource_class = Class.new do
-        include Halogen
-        include Halogen::Resource
+        include Halogen2
+        include Halogen2::Resource
       end
 
       expect {
-        resource_class.send :include, Halogen::Collection
+        resource_class.send :include, Halogen2::Collection
       }.to raise_error do |exception|
-        expect(exception).to be_an_instance_of(Halogen::InvalidCollection)
+        expect(exception).to be_an_instance_of(Halogen2::InvalidCollection)
         expect(exception.message).to match(/has already defined a resource/i)
       end
     end
   end
 
-  describe Halogen::Collection::ClassMethods do
+  describe Halogen2::Collection::ClassMethods do
     describe '#define_collection' do
       it 'handles string argument' do
         klass.define_collection 'goats'
@@ -38,7 +40,7 @@ describe Halogen::Collection do
     end
   end
 
-  describe Halogen::Collection::InstanceMethods do
+  describe Halogen2::Collection::InstanceMethods do
     describe '#embed?' do
       it 'returns true if key matches collection name' do
         klass.collection_name = 'foo'

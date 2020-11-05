@@ -1,9 +1,11 @@
-describe Halogen::Properties do
+require_relative '../../lib/halogen2'
+
+describe Halogen2::Properties do
   let :klass do
-    Class.new { include Halogen }
+    Class.new { include Halogen2 }
   end
 
-  describe Halogen::Properties::ClassMethods do
+  describe Halogen2::Properties::ClassMethods do
     describe '#property' do
       it 'defines property' do
         expect {
@@ -13,7 +15,7 @@ describe Halogen::Properties do
     end
   end
 
-  describe Halogen::Properties::InstanceMethods do
+  describe Halogen2::Properties::InstanceMethods do
     let :repr do
       klass.new
     end
