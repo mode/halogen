@@ -18,7 +18,11 @@ module Halogen
       # @return [Hash] the rendered hash with links, if any
       #
       def render
-        decorate_render :links, super
+        if options.fetch(:include_links, true)
+          decorate_render :links, super
+        else
+          super
+        end
       end
 
       # @return [Hash] links from definitions
