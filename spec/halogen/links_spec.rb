@@ -111,7 +111,7 @@ describe Halogen::Links do
         repr = klass.new
 
         expect(repr.links).to eq({})
-      end      
+      end
     end
   end
 end
