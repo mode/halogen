@@ -94,7 +94,7 @@ describe Halogen::Links do
         
         render = repr.render
 
-        expect(render[:links]).to eq(nil)
+        expect(render[:_links]).to eq(nil)
       end
     end
   
