@@ -95,8 +95,6 @@ describe Halogen::Links do
 
       it "excludes links when false" do
         link = klass.link(:self, :templated, foo: 'foo', attrs: { bar: 'bar' }) { 'path' }
-        repr = klass.new('include_links'  => true)        
-
         repr = klass.new('include_links'  => false)
         expect(repr.options).to eq({include_links: false})
         
