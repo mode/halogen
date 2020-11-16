@@ -85,6 +85,14 @@ describe Halogen::Links do
         expect(render[:_links]).to eq(:self => {:bar=>"bar", :href=>"path", :templated=>true})
       end
 
+      it "defaults to true" do
+        link = klass.link(:self, :templated, foo: 'foo', attrs: { bar: 'bar' }) { 'path' }
+        repr = klass.new
+        render = repr.render
+
+        expect(render[:_links]).to eq(:self => {:bar=>"bar", :href=>"path", :templated=>true})
+      end
+
       it "excludes links when false" do
         link = klass.link(:self, :templated, foo: 'foo', attrs: { bar: 'bar' }) { 'path' }
         repr = klass.new('include_links'  => true)        
