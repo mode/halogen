@@ -194,6 +194,14 @@ link(:find, :templated) { '/goats/{?id}' }
 # => { _links: { find: { href: '/goats/{?id}', templated: true } } ... }
 ```
 
+Optional links:
+
+```ruby
+representer = MyRepresenterWithManyLinks.new(include_links: false)
+representation = representer.render
+representation[:links] #nil
+```
+
 #### Embedded resources
 
 Embedded resources are not rendered by default. They will be included if both
