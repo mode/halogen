@@ -199,7 +199,7 @@ Optional links:
 ```ruby
 representer = MyRepresenterWithManyLinks.new(include_links: false)
 representation = representer.render
-representation[:links] #nil
+representation[:_links] #nil
 ```
 
 #### Embedded resources

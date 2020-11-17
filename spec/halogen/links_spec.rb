@@ -68,35 +68,35 @@ describe Halogen::Links do
   end
 
   describe Halogen::Links::InstanceMethods do
-    describe "options[:include_links]" do
+    describe 'options[:include_links]' do
       let :klass do
         Class.new do
           include Halogen
         end
       end
       
-      it "includes links when true" do
+      it 'includes links when true' do
         link = klass.link(:self, :templated, foo: 'foo', attrs: { bar: 'bar' }) { 'path' }
         repr = klass.new('include_links'  => true)        
 
-        expect(repr.options).to eq({include_links: true})
+        expect(repr.options).to eq({ include_links: true })
         render = repr.render
 
         expect(render[:_links]).to eq(:self => {:bar=>"bar", :href=>"path", :templated=>true})
       end
 
-      it "defaults to true" do
+      it 'defaults to true' do
         link = klass.link(:self, :templated, foo: 'foo', attrs: { bar: 'bar' }) { 'path' }
         repr = klass.new
         render = repr.render
 
-        expect(render[:_links]).to eq(:self => {:bar=>"bar", :href=>"path", :templated=>true})
+        expect(render[:_links]).to eq(:self => {:bar=>'bar', :href=>'path', :templated=>true})
       end
 
-      it "excludes links when false" do
+      it 'excludes links when false' do
         link = klass.link(:self, :templated, foo: 'foo', attrs: { bar: 'bar' }) { 'path' }
         repr = klass.new('include_links'  => false)
-        expect(repr.options).to eq({include_links: false})
+        expect(repr.options).to eq({ include_links: false })
         
         render = repr.render
 
