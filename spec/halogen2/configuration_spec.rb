@@ -1,4 +1,4 @@
-require_relative '../../lib/halogen2'
+require_relative '/Users/oliversanford/json_benchmarks/halogen/lib/halogen2'
 
 describe Halogen2::Configuration do
   describe '#extensions' do

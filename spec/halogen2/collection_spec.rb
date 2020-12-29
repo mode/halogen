@@ -1,4 +1,4 @@
-require_relative '../../lib/halogen2'
+require '/Users/oliversanford/json_benchmarks/halogen/lib/halogen2'
 
 describe Halogen2::Collection do
   let :klass do
@@ -40,27 +40,27 @@ describe Halogen2::Collection do
     end
   end
 
-  describe Halogen2::Collection::InstanceMethods do
-    describe '#embed?' do
-      it 'returns true if key matches collection name' do
-        klass.collection_name = 'foo'
-
-        expect(klass.new.embed?('foo')).to eq(true)
-      end
-
-      it 'returns false if key does not match' do
-        klass.collection_name = 'bar'
-
-        expect(klass.new.embed?('foo')).to eq(false)
-      end
-    end
-
-    describe '#collection?' do
-      it 'is true' do
-        repr = klass.new
-
-        expect(repr.collection?).to eq(true)
-      end
-    end
-  end
+  # describe Halogen2::Collection::InstanceMethods do
+  #   describe '#embed?' do
+  #     it 'returns true if key matches collection name' do
+  #       klass.collection_name = 'foo'
+  #
+  #       expect(klass.new.embed?('foo')).to eq(true)
+  #     end
+  #
+  #     it 'returns false if key does not match' do
+  #       klass.collection_name = 'bar'
+  #
+  #       expect(klass.new.embed?('foo')).to eq(false)
+  #     end
+  #   end
+  #
+  #   describe '#collection?' do
+  #     it 'is true' do
+  #       repr = klass.new
+  #
+  #       expect(repr.collection?).to eq(true)
+  #     end
+  #   end
+  # end
 end

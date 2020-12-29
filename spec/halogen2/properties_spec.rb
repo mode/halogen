@@ -1,4 +1,4 @@
-require_relative '../../lib/halogen2'
+require_relative '/Users/oliversanford/json_benchmarks/halogen/lib/halogen2'
 
 describe Halogen2::Properties do
   let :klass do
@@ -13,18 +13,12 @@ describe Halogen2::Properties do
         }.to change(klass.definitions, :size).by(1)
       end
     end
-  end
-
-  describe Halogen2::Properties::InstanceMethods do
-    let :repr do
-      klass.new
-    end
 
     describe '#render' do
       it 'merges super with rendered properties' do
-        allow(repr).to receive(:properties).and_return(foo: 'bar')
+        klass.property(:foo)
 
-        expect(repr.render).to eq(foo: 'bar')
+        expect(klass.render(foo: 'bar')).to eq(foo: 'bar')
       end
     end
 
