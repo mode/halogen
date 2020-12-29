@@ -1,42 +1,44 @@
-describe Halogen do
+require_relative '../lib/halogen2'
+
+describe Halogen2 do
   let :klass do
-    Class.new { include Halogen }
+    Class.new { include Halogen2 }
   end
 
-  describe Halogen::ClassMethods do
+  describe Halogen2::ClassMethods do
     describe '#resource' do
       it 'includes resource module' do
-        klass = Class.new { include Halogen }
+        klass = Class.new { include Halogen2 }
 
         expect(klass).to receive(:define_resource)
 
         klass.resource :foo
 
-        expect(klass.included_modules.include?(Halogen::Resource)).to eq(true)
+        expect(klass.included_modules.include?(Halogen2::Resource)).to eq(true)
       end
     end
 
     describe '#collection' do
       it 'includes collection module' do
-        klass = Class.new { include Halogen }
+        klass = Class.new { include Halogen2 }
 
         expect(klass).to receive(:define_collection)
 
         klass.collection :foo
 
-        expect(klass.included_modules.include?(Halogen::Collection)).to eq(true)
+        expect(klass.included_modules.include?(Halogen2::Collection)).to eq(true)
       end
     end
 
     describe '#collection?' do
       it 'is false by default' do
-        klass = Class.new { include Halogen }
+        klass = Class.new { include Halogen2 }
 
         expect(klass.collection?).to eq(false)
       end
 
       it 'is true for collection' do
-        klass = Class.new { include Halogen }
+        klass = Class.new { include Halogen2 }
 
         klass.collection :foo
 
@@ -45,25 +47,10 @@ describe Halogen do
     end
   end
 
-  describe Halogen::InstanceMethods do
-    describe '#initialize' do
-      it 'symbolizes option keys' do
-        repr = klass.new(
-          'embed'  => { 'foo' => 'bar' },
-          'ignore' => 'this',
-          :convert => 'that')
-
-        expect(repr.options).to eq(
-          embed:   { 'foo' => 'bar' },
-          ignore:  'this',
-          convert: 'that'
-        )
-      end
-    end
-
-    describe '#render' do
+  describe Halogen2::ClassMethods do
+    describe '.render' do
       let :rendered do
-        klass.new.render
+        klass.render(nil)
       end
 
       it 'renders simple link' do
@@ -73,8 +60,8 @@ describe Halogen do
       end
 
       it 'does not include link if conditional checks fail' do
-        klass.send(:define_method, :return_false) { false }
-        klass.send(:define_method, :return_nil)   { nil }
+        klass.define_singleton_method(:return_false) { |_resource| false }
+        klass.define_singleton_method(:return_nil)   { |_resource| nil }
 
         klass.link(:label) { 'href' }
 
@@ -87,8 +74,8 @@ describe Halogen do
       end
 
       it 'includes link if conditional checks pass' do
-        klass.send(:define_method, :return_true) { true }
-        klass.send(:define_method, :return_one)  { 1 }
+        klass.define_singleton_method(:return_true) { |_resource| true }
+        klass.define_singleton_method(:return_one)  { |_resource| 1 }
 
         klass.link(:label) { 'href' }
 
@@ -102,37 +89,37 @@ describe Halogen do
       end
     end
 
-    describe '#depth' do
-      it 'is zero for top level representer' do
-        expect(klass.new.depth).to eq(0)
-      end
-
-      it 'has expected value for embedded children' do
-        parent = klass.new
-
-        child = klass.new
-        allow(child).to receive(:parent).and_return(parent)
-
-        grandchild = klass.new
-        allow(grandchild).to receive(:parent).and_return(child)
-
-        expect(parent.depth).to eq(0)
-        expect(child.depth).to eq(1)
-        expect(grandchild.depth).to eq(2)
-      end
-    end
+    # describe '#depth' do
+    #   it 'is zero for top level representer' do
+    #     expect(klass.new.depth).to eq(0)
+    #   end
+    #
+    #   it 'has expected value for embedded children' do
+    #     parent = klass.new
+    #
+    #     child = klass.new
+    #     allow(child).to receive(:parent).and_return(parent)
+    #
+    #     grandchild = klass.new
+    #     allow(grandchild).to receive(:parent).and_return(child)
+    #
+    #     expect(parent.depth).to eq(0)
+    #     expect(child.depth).to eq(1)
+    #     expect(grandchild.depth).to eq(2)
+    #   end
+    # end
 
     describe '#to_json' do
       it 'converts rendered representer to json' do
-        expect(klass.new.to_json).to eq('{}')
+        expect(klass.render(nil).to_json).to eq('{}')
       end
     end
   end
 
   describe '.config' do
     it 'yields configuration instance' do
-      Halogen.configure do |config|
-        expect(config).to eq(Halogen.config)
+      Halogen2.configure do |config|
+        expect(config).to eq(Halogen2.config)
       end
     end
   end

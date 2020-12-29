@@ -1,4 +1,4 @@
-module Halogen
+module Halogen2
   # Behavior for representers with a primary collection resource.
   #
   # The main reason to declare a collection is that the resource with that name
@@ -12,8 +12,6 @@ module Halogen
 
       base.extend ClassMethods
 
-      base.send :include, InstanceMethods
-
       base.class.send :attr_accessor, :collection_name
     end
 
@@ -24,22 +22,6 @@ module Halogen
       #
       def define_collection(name)
         self.collection_name = name.to_s
-      end
-
-      def collection?
-        true
-      end
-    end
-
-    module InstanceMethods # :nodoc:
-      # Ensure that the primary collection is always embedded
-      #
-      # @param key [String] the embed key to check
-      #
-      # @return [true, false] whether the given key should be embedded
-      #
-      def embed?(key)
-        key == self.class.collection_name
       end
 
       def collection?

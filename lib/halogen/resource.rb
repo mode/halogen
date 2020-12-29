@@ -1,4 +1,4 @@
-module Halogen
+module Halogen2
   # Behavior for representers with a single primary resource
   #
   module Resource
@@ -8,8 +8,6 @@ module Halogen
       end
 
       base.extend ClassMethods
-
-      base.send :include, InstanceMethods
 
       base.send :attr_reader, :resource
 
@@ -38,18 +36,6 @@ module Halogen
             definition.procedure = proc { resource.send(name) }
           end
         end
-      end
-    end
-
-    module InstanceMethods # :nodoc:
-      # Override standard initializer to assign primary resource
-      #
-      # @param resource [Object] the primary resource
-      #
-      def initialize(resource, *args)
-        @resource = resource
-
-        super *args
       end
     end
   end

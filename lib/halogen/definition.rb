@@ -1,4 +1,4 @@
-module Halogen
+module Halogen2
   # Stores instructions for how to render a value for a given representer
   # instance
   #
@@ -12,11 +12,11 @@ module Halogen
     # @param name [Symbol, String] definition name
     # @param options [Hash] hash of options
     #
-    # @return [Halogen::Definition] the instance
+    # @return [Halogen2::Definition] the instance
     #
     def initialize(name, options, procedure)
       @name      = name.to_sym
-      @options   = Halogen::HashUtil.symbolize_keys!(options)
+      @options   = Halogen2::HashUtil.symbolize_keys!(options)
       @procedure = procedure
     end
 
@@ -32,11 +32,11 @@ module Halogen
     # @return [true, false] whether this definition should be included based on
     #   its conditional guard, if any
     #
-    def enabled?(instance)
+    def enabled?(representer_class = Class.new { include Halogen2 }, representer_options = {}, resource = nil)
       if options.key?(:if)
-        !!eval_guard(instance, options.fetch(:if))
+        !!eval_guard(representer_class, resource, options.fetch(:if))
       elsif options.key?(:unless)
-        !eval_guard(instance, options.fetch(:unless))
+        !eval_guard(representer_class, resource, options.fetch(:unless))
       else
         true
       end
@@ -44,7 +44,7 @@ module Halogen
 
     # @return [true] if nothing is raised
     #
-    # @raise [Halogen::InvalidDefinition] if the definition is invalid
+    # @raise [Halogen2::InvalidDefinition] if the definition is invalid
     #
     def validate
       return true unless options.key?(:value) && procedure
@@ -53,16 +53,14 @@ module Halogen
            "Cannot specify both value and procedure for #{name}"
     end
 
-    private
-
     # Evaluate guard procedure or method
     #
-    def eval_guard(instance, guard)
+    def eval_guard(representer_class, resource, guard)
       case guard
       when Proc
-        instance.instance_eval(&guard)
+        guard.call(resource)
       when Symbol, String
-        instance.send(guard)
+        representer_class.send(guard, resource)
       else
         guard
       end

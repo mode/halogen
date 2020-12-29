@@ -1,11 +1,11 @@
-module Halogen
-  # Each representer class has a Halogen::Definitions instance which stores
-  # Halogen::Definition instances by type.
+module Halogen2
+  # Each representer class has a Halogen2::Definitions instance which stores
+  # Halogen2::Definition instances by type.
   #
   class Definitions < Hash
-    # @param definition [Halogen::Definition]
+    # @param definition [Halogen2::Definition]
     #
-    # @return [Halogen::Definition] the added definition
+    # @return [Halogen2::Definition] the added definition
     #
     def add(definition)
       type = definition.class.name

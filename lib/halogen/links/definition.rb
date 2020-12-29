@@ -1,6 +1,6 @@
-module Halogen
+module Halogen2
   module Links
-    class Definition < Halogen::Definition # :nodoc
+    class Definition < Halogen2::Definition # :nodoc
       # Links have special keywords that other definitions don't, so override
       # the standard initializer to build options from keywords
       #
@@ -10,7 +10,7 @@ module Halogen
 
       # @return [true] if nothing is raised
       #
-      # @raise [Halogen::InvalidDefinition] if the definition is invalid
+      # @raise [Halogen2::InvalidDefinition] if the definition is invalid
       #
       def validate
         super
@@ -56,7 +56,7 @@ module Halogen
 
         # @param keywords [Array] array of special keywords
         #
-        # @raise [Halogen::InvalidDefinition] if a keyword is unrecognized
+        # @raise [Halogen2::InvalidDefinition] if a keyword is unrecognized
         #
         def build_attrs(keywords)
           keywords.each_with_object({}) do |keyword, attrs|

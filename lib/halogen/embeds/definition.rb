@@ -1,9 +1,9 @@
-module Halogen
+module Halogen2
   module Embeds
-    class Definition < Halogen::Definition # :nodoc:
+    class Definition < Halogen2::Definition # :nodoc:
       # @return [true] if nothing is raised
       #
-      # @raise [Halogen::InvalidDefinition] if the definition is invalid
+      # @raise [Halogen2::InvalidDefinition] if the definition is invalid
       #
       def validate
         super
@@ -13,30 +13,30 @@ module Halogen
         fail InvalidDefinition, "Embed #{name} must be defined with a proc"
       end
 
-      # Check whether this definition should be embedded for the given instance
+      # Check whether this definition should be embedded for the given class
       #
-      # @param instance [Object]
+      # @param class [Object]
       #
       # @return [true, false]
       #
-      def enabled?(instance)
-        return false unless super
+      def enabled?(representer_class, representer_options, resource)
+        return false unless super(representer_class, representer_options, resource)
 
-        if instance.respond_to?(:embed?)
-          instance.embed?(name.to_s)
+        if representer_class.respond_to?(:embed?)
+          representer_class.embed?(name.to_s)
         else
-          embed_via_options?(instance)
+          embed_via_options?(representer_class, representer_options)
         end
       end
 
       private
 
-      # @param instance [Object]
+      # @param class [Object]
       #
       # @return [true, false]
       #
-      def embed_via_options?(instance)
-        opts = instance.embed_options
+      def embed_via_options?(representer_class, representer_options)
+        opts = representer_class.embed_options(representer_options)
 
         # Definition name must appear in instance embed option keys
         return false unless opts.include?(name.to_s)
