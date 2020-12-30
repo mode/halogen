@@ -1,44 +1,44 @@
-require_relative '../lib/halogen2'
+require_relative '../lib/halogen'
 
-describe Halogen2 do
+describe Halogen do
   let :klass do
-    Class.new { include Halogen2 }
+    Class.new { include Halogen }
   end
 
-  describe Halogen2::ClassMethods do
+  describe Halogen::ClassMethods do
     describe '#resource' do
       it 'includes resource module' do
-        klass = Class.new { include Halogen2 }
+        klass = Class.new { include Halogen }
 
         expect(klass).to receive(:define_resource)
 
         klass.resource :foo
 
-        expect(klass.included_modules.include?(Halogen2::Resource)).to eq(true)
+        expect(klass.included_modules.include?(Halogen::Resource)).to eq(true)
       end
     end
 
     describe '#collection' do
       it 'includes collection module' do
-        klass = Class.new { include Halogen2 }
+        klass = Class.new { include Halogen }
 
         expect(klass).to receive(:define_collection)
 
         klass.collection :foo
 
-        expect(klass.included_modules.include?(Halogen2::Collection)).to eq(true)
+        expect(klass.included_modules.include?(Halogen::Collection)).to eq(true)
       end
     end
 
     describe '#collection?' do
       it 'is false by default' do
-        klass = Class.new { include Halogen2 }
+        klass = Class.new { include Halogen }
 
         expect(klass.collection?).to eq(false)
       end
 
       it 'is true for collection' do
-        klass = Class.new { include Halogen2 }
+        klass = Class.new { include Halogen }
 
         klass.collection :foo
 
@@ -47,7 +47,7 @@ describe Halogen2 do
     end
   end
 
-  describe Halogen2::ClassMethods do
+  describe Halogen::ClassMethods do
     describe '.render' do
       let :rendered do
         klass.render(nil)
@@ -118,8 +118,8 @@ describe Halogen2 do
 
   describe '.config' do
     it 'yields configuration instance' do
-      Halogen2.configure do |config|
-        expect(config).to eq(Halogen2.config)
+      Halogen.configure do |config|
+        expect(config).to eq(Halogen.config)
       end
     end
   end

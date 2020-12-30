@@ -1,4 +1,4 @@
-module Halogen2
+module Halogen
   # Behavior for representers with a single primary resource
   #
   module Resource
@@ -22,7 +22,7 @@ module Halogen2
       def define_resource(name)
         self.resource_name = name.to_s
 
-        alias_method name, :resource
+        singleton_class.send(:alias_method, name, :resource)
       end
 
       # Override standard property definition for resource-based representers

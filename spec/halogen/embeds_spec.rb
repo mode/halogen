@@ -1,14 +1,14 @@
-require_relative '/Users/oliversanford/json_benchmarks/halogen/lib/halogen2'
 
-describe Halogen2::Embeds do
+
+describe Halogen::Embeds do
   let :klass do
     Class.new do
-      include Halogen2
-      include Halogen2::Embeds
+      include Halogen
+      include Halogen::Embeds
     end
   end
 
-  describe Halogen2::Embeds::ClassMethods do
+  describe Halogen::Embeds::ClassMethods do
     it 'adds simple embed definition' do
       expect(klass.definitions).to receive(:add)
 
@@ -16,7 +16,7 @@ describe Halogen2::Embeds do
     end
   end
   #
-  # describe Halogen2::Embeds::InstanceMethods do
+  # describe Halogen::Embeds::InstanceMethods do
   #   describe '#embedded' do
   #     describe 'when no embeds are defined' do
   #       it 'returns empty hash when no embeds are requested' do
@@ -67,7 +67,7 @@ describe Halogen2::Embeds do
   #
   #     let :child_class do
   #       Class.new do
-  #         include Halogen2
+  #         include Halogen
   #
   #         property(:foo) { 'bar' }
   #       end
@@ -146,7 +146,7 @@ describe Halogen2::Embeds do
   #   describe '#render_child' do
   #     let :representer do
   #       Class.new do
-  #         include Halogen2
+  #         include Halogen
   #
   #         property(:verify_parent) { parent.object_id }
   #         property(:verify_opts)   { options[:embed] }

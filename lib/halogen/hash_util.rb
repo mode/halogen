@@ -1,4 +1,4 @@
-module Halogen2
+module Halogen
   module HashUtil # :nodoc:
     extend self
 

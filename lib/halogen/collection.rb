@@ -1,4 +1,4 @@
-module Halogen2
+module Halogen
   # Behavior for representers with a primary collection resource.
   #
   # The main reason to declare a collection is that the resource with that name

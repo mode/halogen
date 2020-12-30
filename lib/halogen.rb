@@ -8,7 +8,7 @@ require 'json'
 # Provides a framework-agnostic interface for generating HAL+JSON
 # representations of resources
 #
-module Halogen2
+module Halogen
   # Provide Halogen methods for the including module
   #
   # @return [Module]
@@ -70,6 +70,23 @@ module Halogen2
 
       result
     end
+
+    # Iterate through enabled definitions of the given type, allowing class
+    # to build up resulting hash
+    #
+    # @param type [Symbol, String] the definition type
+    #
+    # @return [Hash] the result
+    #
+    def render_definitions(type)
+      definitions = self.definitions.fetch(type, [])
+
+      definitions.each_with_object({}) do |definition, result|
+        next unless definition.enabled?(self)
+
+        yield definition, result
+      end
+    end
   end
 
   class << self
@@ -89,16 +106,16 @@ module Halogen2
   end
 end
 
-require 'halogen2/collection'
-require 'halogen2/configuration'
-require 'halogen2/definition'
-require 'halogen2/definitions'
-require 'halogen2/embeds'
-require 'halogen2/errors'
-require 'halogen2/links'
-require 'halogen2/properties'
-require 'halogen2/resource'
-require 'halogen2/hash_util'
-require 'halogen2/version'
+require 'halogen/collection'
+require 'halogen/configuration'
+require 'halogen/definition'
+require 'halogen/definitions'
+require 'halogen/embeds'
+require 'halogen/errors'
+require 'halogen/links'
+require 'halogen/properties'
+require 'halogen/resource'
+require 'halogen/hash_util'
+require 'halogen/version'
 
-require 'halogen2/railtie' if defined?(::Rails)
+require 'halogen/railtie' if defined?(::Rails)

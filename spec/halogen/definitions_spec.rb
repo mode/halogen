@@ -1,12 +1,12 @@
-require_relative '/Users/oliversanford/json_benchmarks/halogen/lib/halogen2'
 
-describe Halogen2::Definitions do
+
+describe Halogen::Definitions do
   let :definitions do
-    Halogen2::Definitions.new
+    Halogen::Definitions.new
   end
 
   let :definition do
-    Halogen2::Definition.new(:name, {}, nil)
+    Halogen::Definition.new(:name, {}, nil)
   end
 
   describe '#add' do
@@ -15,8 +15,8 @@ describe Halogen2::Definitions do
 
       definitions.add(definition)
 
-      expect(definitions.keys).to eq(['Halogen2::Definition'])
-      expect(definitions['Halogen2::Definition']).to eq([definition])
+      expect(definitions.keys).to eq(['Halogen::Definition'])
+      expect(definitions['Halogen::Definition']).to eq([definition])
     end
   end
 end

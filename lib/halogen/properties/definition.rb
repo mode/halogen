@@ -1,6 +1,6 @@
-module Halogen2
+module Halogen
   module Properties
-    class Definition < Halogen2::Definition # :nodoc
+    class Definition < Halogen::Definition # :nodoc
     end
   end
 end

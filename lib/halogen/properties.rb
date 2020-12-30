@@ -1,4 +1,4 @@
-module Halogen2
+module Halogen
   module Properties # :nodoc:
     def self.included(base) # :nodoc:
       base.extend ClassMethods
@@ -8,7 +8,7 @@ module Halogen2
       # @param name [Symbol, String]
       # @param options [nil, Hash]
       #
-      # @return [Halogen2::Properties::Definition]
+      # @return [Halogen::Properties::Definition]
       #
       def property(name, options = {}, &procedure)
         define_singleton_method("get_property_#{name}") do |resource|
@@ -25,8 +25,16 @@ module Halogen2
 
         definitions.add(Definition.new(name, options, procedure))
       end
+
+      # @return [Hash] properties from definitions
+      #
+      def properties
+        render_definitions(Definition.name) do |definition, result|
+          result[definition.name] = definition.value(self)
+        end
+      end
     end
   end
 end
 
-require 'halogen2/properties/definition'
+require 'halogen/properties/definition'

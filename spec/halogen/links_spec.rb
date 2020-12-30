@@ -1,11 +1,11 @@
-require_relative '/Users/oliversanford/json_benchmarks/halogen/lib/halogen2'
 
-describe Halogen2::Links do
+
+describe Halogen::Links do
   let :klass do
-    Class.new { include Halogen2 }
+    Class.new { include Halogen }
   end
 
-  describe Halogen2::Links::ClassMethods do
+  describe Halogen::Links::ClassMethods do
     describe '.link' do
       describe 'with procedure' do
         it 'builds simple definition' do
@@ -71,7 +71,7 @@ describe Halogen2::Links do
     describe '.links' do
       let :klass do
         Class.new do
-          include Halogen2
+          include Halogen
 
           link(:self) { nil }
         end

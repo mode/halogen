@@ -1,9 +1,9 @@
-module Halogen2
+module Halogen
   module Embeds
-    class Definition < Halogen2::Definition # :nodoc:
+    class Definition < Halogen::Definition # :nodoc:
       # @return [true] if nothing is raised
       #
-      # @raise [Halogen2::InvalidDefinition] if the definition is invalid
+      # @raise [Halogen::InvalidDefinition] if the definition is invalid
       #
       def validate
         super

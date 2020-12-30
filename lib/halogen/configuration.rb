@@ -1,4 +1,4 @@
-module Halogen2
+module Halogen
   # Simple configuration class
   #
   class Configuration

@@ -1,4 +1,4 @@
-module Halogen2
+module Halogen
   # Stores instructions for how to render a value for a given representer
   # instance
   #
@@ -12,11 +12,11 @@ module Halogen2
     # @param name [Symbol, String] definition name
     # @param options [Hash] hash of options
     #
-    # @return [Halogen2::Definition] the instance
+    # @return [Halogen::Definition] the instance
     #
     def initialize(name, options, procedure)
       @name      = name.to_sym
-      @options   = Halogen2::HashUtil.symbolize_keys!(options)
+      @options   = Halogen::HashUtil.symbolize_keys!(options)
       @procedure = procedure
     end
 
@@ -32,7 +32,7 @@ module Halogen2
     # @return [true, false] whether this definition should be included based on
     #   its conditional guard, if any
     #
-    def enabled?(representer_class = Class.new { include Halogen2 }, representer_options = {}, resource = nil)
+    def enabled?(representer_class = Class.new { include Halogen }, representer_options = {}, resource = nil)
       if options.key?(:if)
         !!eval_guard(representer_class, resource, options.fetch(:if))
       elsif options.key?(:unless)
@@ -44,7 +44,7 @@ module Halogen2
 
     # @return [true] if nothing is raised
     #
-    # @raise [Halogen2::InvalidDefinition] if the definition is invalid
+    # @raise [Halogen::InvalidDefinition] if the definition is invalid
     #
     def validate
       return true unless options.key?(:value) && procedure

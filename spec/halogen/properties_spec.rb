@@ -1,11 +1,15 @@
-require_relative '/Users/oliversanford/json_benchmarks/halogen/lib/halogen2'
 
-describe Halogen2::Properties do
+
+describe Halogen::Properties do
   let :klass do
-    Class.new { include Halogen2 }
+    Class.new { include Halogen }
   end
 
-  describe Halogen2::Properties::ClassMethods do
+  let :resource do
+    OpenStruct.new(foo: 'bar')
+  end
+
+  describe Halogen::Properties::ClassMethods do
     describe '#property' do
       it 'defines property' do
         expect {
@@ -18,7 +22,7 @@ describe Halogen2::Properties do
       it 'merges super with rendered properties' do
         klass.property(:foo)
 
-        expect(klass.render(foo: 'bar')).to eq(foo: 'bar')
+        expect(klass.render(resource)).to eq(foo: 'bar')
       end
     end
 
@@ -26,7 +30,7 @@ describe Halogen2::Properties do
       it 'builds properties from definitions' do
         klass.property(:foo, value: 'bar')
 
-        expect(repr.properties).to eq(foo: 'bar')
+        expect(klass.properties).to eq(foo: 'bar')
       end
     end
   end

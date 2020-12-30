@@ -1,4 +1,4 @@
-module Halogen2
+module Halogen
   module Embeds # :nodoc:
     def self.included(base) # :nodoc:
       base.extend ClassMethods
@@ -8,7 +8,7 @@ module Halogen2
       # @param name [Symbol, String]
       # @param options [nil, Hash]
       #
-      # @return [Halogen2::Embeds::Definition]
+      # @return [Halogen::Embeds::Definition]
       #
       def embed(name, options = {}, &procedure)
         if options[:representer]
@@ -32,7 +32,7 @@ module Halogen2
       end
 
       def get_embeds(resource, result, representer_options)
-        self.definitions.fetch("Halogen2::Embeds::Definition", []).each do |definition|
+        self.definitions.fetch("Halogen::Embeds::Definition", []).each do |definition|
           next unless definition.enabled?(representer_options[:representer], representer_options, collection_name)
           send(:"get_embedded_#{definition.name}", resource, definition, result, representer_options)
         end
@@ -71,7 +71,7 @@ module Halogen2
       # @return [nil, Hash] the rendered child
       #
       def render_child(value, repr, child_options = {})
-        return unless repr.included_modules.include?(Halogen2)
+        return unless repr.included_modules.include?(Halogen)
 
         child_options[:embed] ||= {}
         child_options[:embed].merge!(child_options)
@@ -84,11 +84,11 @@ module Halogen2
       #
       def embed_options(representer_options)
         @_embed_options ||= representer_options.fetch(:embed, {}).tap do |result|
-          Halogen2::HashUtil.stringify_keys!(result)
+          Halogen::HashUtil.stringify_keys!(result)
         end
       end
     end
   end
 end
 
-require 'halogen2/embeds/definition'
+require 'halogen/embeds/definition'

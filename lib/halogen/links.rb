@@ -1,11 +1,11 @@
-module Halogen2
+module Halogen
   module Links # :nodoc:
     def self.included(base) # :nodoc:
       base.extend ClassMethods
     end
 
     module ClassMethods # :nodoc:
-      # @return [Halogen2::Links::Definition]
+      # @return [Halogen::Links::Definition]
       #
       def link(name, *args, &procedure)
         definitions.add(Definition.new(name, *args, procedure))
@@ -13,7 +13,7 @@ module Halogen2
 
       def get_links(_resource, result, representer_options)
         result[:_links] ||= {}
-        self.definitions.fetch("Halogen2::Links::Definition", []).each do |definition|
+        self.definitions.fetch("Halogen::Links::Definition", []).each do |definition|
           next unless definition.enabled?(representer_options[:representer], representer_options)
           value = definition.value(nil)
 
@@ -26,4 +26,4 @@ module Halogen2
   end
 end
 
-require 'halogen2/links/definition'
+require 'halogen/links/definition'
