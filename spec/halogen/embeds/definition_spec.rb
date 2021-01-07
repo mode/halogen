@@ -37,29 +37,28 @@ describe Halogen::Embeds::Definition do
     end
   end
 
-  # Pending because not as relevant for class implementation
-  pending '#embed_via_options?' do
+  describe '#embed_via_options?' do
     let :klass do
       Class.new { include Halogen }
     end
 
     it 'is true for expected values' do
       [1, 2, true, '1', '2', 'true', 'yes'].each do |value|
-        repr = klass.new(embed: { foo: value })
+        options = { embed: { foo: value } }
 
         definition = Halogen::Embeds::Definition.new(:foo, {}, proc {})
 
-        expect(definition.send(:embed_via_options?, repr)).to eq(true)
+        expect(definition.send(:embed_via_options?, klass, options)).to eq(true)
       end
     end
 
     it 'is false for expected values' do
       [0, false, '0', 'false'].each do |value|
-        repr = klass.new(embed: { foo: value })
+        options = { embed: { foo: value } }
 
         definition = Halogen::Embeds::Definition.new(:foo, {}, proc {})
 
-        expect(definition.send(:embed_via_options?, repr)).to eq(false)
+        expect(definition.send(:embed_via_options?, klass, options)).to eq(false)
       end
     end
   end
